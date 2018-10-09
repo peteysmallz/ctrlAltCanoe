@@ -1,0 +1,7 @@
+{
+  "name": "ctrl-alt-canoe",
+  "short_name": "ctrl-alt-canoe",
+  "description": "CtrlAltCanoe.com website",
+  "start_url": "/",
+  "display": "standalone"
+}

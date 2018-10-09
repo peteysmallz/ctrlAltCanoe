@@ -1,0 +1,17 @@
+{
+  "name": "ctrl-alt-canoe",
+  "description": "CtrlAltCanoe.com website",
+  "dependencies": {
+    "@polymer/app-layout": "^3.0.0",
+    "@polymer/iron-flex-layout": "^3.0.0",
+    "@polymer/iron-selector": "^3.0.0",
+    "@polymer/paper-behaviors": "^3.0.0",
+    "@polymer/paper-button": "^3.0.1",
+    "@polymer/paper-card": "^3.0.1",
+    "@polymer/polymer": "^3.0.0"
+  },
+  "devDependencies": {
+    "@webcomponents/webcomponentsjs": "^2.0.0",
+    "wct-browser-legacy": "^1.0.0"
+  }
+}

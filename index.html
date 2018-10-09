@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>ctrl-alt-canoe</title>
+    <meta name="description" content="CtrlAltCanoe.com website">
+
+    <!-- See https://goo.gl/OOhYW5 -->
+    <link rel="manifest" href="/manifest.json">
+    <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script type="module" src="/src/ctrl-alt-canoe-app/ctrl-alt-canoe-app.js" crossorigin></script>
+
+    <style>
+
+      body {
+        margin: 0;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        font-size: 13px;
+        line-height: 1.5;
+        min-height: 100vh;
+      }
+
+      /* styling for render while resources are loading */
+      ctrl-alt-canoe-app[unresolved] {
+        display: block;
+        min-height: 101vh;
+        line-height: 68px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.3em;
+        color: #202020;
+        padding: 0 16px;
+        overflow: visible;
+      }
+
+    </style>
+  </head>
+  <body>
+    <ctrl-alt-canoe-app></ctrl-alt-canoe-app>
+  </body>
+</html>
