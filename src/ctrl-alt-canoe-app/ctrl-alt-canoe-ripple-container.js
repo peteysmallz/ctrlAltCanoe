@@ -27,7 +27,6 @@ class CtrlAltCanoeRippleContainer extends mixinBehaviors(
   constructor() {
     super();
     this._isDown = false;
-    console.log('ripple lit');
   }
 
   ready() {

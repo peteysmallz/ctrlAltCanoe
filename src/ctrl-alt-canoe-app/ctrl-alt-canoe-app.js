@@ -9,12 +9,16 @@ import '@polymer/paper-card/paper-card.js';
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/iron-flex-layout/iron-flex-layout.js';
 
+import '@polymer/app-route/app-location.js';
+import '@polymer/app-route/app-route.js';
+import '@polymer/iron-pages/iron-pages.js';
+
 import './ctrl-alt-canoe-image.js';
 import './ctrl-alt-canoe-category-data.js';
 import './ctrl-alt-canoe-tab.js';
 import './ctrl-alt-canoe-tabs.js';
-import './ctrl-alt-canoe-card.js';
 import './ctrl-alt-canoe-icons.js';
+import './ctrl-alt-canoe-home.js';
 
 // TODO: Lazy load these files
 import "@polymer/paper-icon-button/paper-icon-button.js";
@@ -70,13 +74,14 @@ class CtrlAltCanoeApp extends PolymerElement {
           display: none; /* Look into fixing this - it's needed on some routes */
         }
 
-        .left-bar-item {
-          width: 40px;
+        .menu-btn {
+          display: none;
         }
 
-        .logo {
-          height: 120px;
-          margin: 0 auto;
+        .logo-container img {
+          display: block;
+          margin: 0px auto;
+          height: 100px;
         }
 
         ctrl-alt-canoe-tabs, ctrl-alt-canoe-tab {
@@ -121,40 +126,6 @@ class CtrlAltCanoeApp extends PolymerElement {
           font-weight: bold;
         }
 
-        .grid {
-          @apply --layout-horizontal;
-          @apply --layout-wrap;
-          @apply --layout-justified;
-          margin: 0 10px 32px 10px;
-          padding: 0;
-          list-style: none;
-        }
-
-        .grid li {
-          -webkit-flex: 1 1;
-          flex: 1 1;
-          -webkit-flex-basis: 33%;
-          flex-basis: 33%;
-          max-width: 33%;
-        }
-
-        .grid a {
-          display:block;
-          text-decoration: none;
-        }
-
-        @media (max-width: 767px) {
-          .hero-image {
-            display: none;
-          }
-
-          .grid  li {
-            -webkit-flex-basis: 100%;
-            flex-basis: 100%;
-            max-width: 100%;
-          }
-        } 
-
         /* small screen */
         @media (max-width: 767px) {
           :host {
@@ -165,18 +136,37 @@ class CtrlAltCanoeApp extends PolymerElement {
             display: block;
           }
 
-          :host([page=detail]) .menu-btn {
+          .logo-container {
+            display: none;
+          }
+
+          ctrl-alt-canoe-tabs {
             display: none;
           }
         }
+
+        .helper {
+          display: inline-block;
+          height: 100%;
+          vertical-align: middle;
+        }
+
       </style>
+
+      <!--
+        app-location and app-route elements provide the state of the URL for the app.
+      -->
+      <app-location route="{{route}}"></app-location>
+      <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
 
       <iron-media-query query="max-width: 767px" query-matches="{{smallScreen}}"></iron-media-query>
 
-      <app-header condenses reveals fixed effects="waterfall">
-        <app-toolbar style="height: 150px">
+      <app-header  role="navigation" id="header" effects="waterfall" condenses="" reveals="">
+        
+        <div class="logo-container">
+          <span class="helper"></span>
           <img src="images/logo-simple.svg" class="logo">
-        </app-toolbar>
+        </div>
 
         <app-toolbar sticky class="toolbar">
 
@@ -201,46 +191,25 @@ class CtrlAltCanoeApp extends PolymerElement {
         </app-toolbar>
       </app-header>
 
-        <!-- Lazy-create the drawer for small screen sizes. -->
-        <dom-if if="[[shouldRenderDrawer]]">
-          <!-- Two-way bind \`drawerOpened\` since app-drawer can update \`opened\` itself. -->
-          <template>
-            <app-drawer opened="{{drawerOpened}}" swipe-open="" tabindex="0">
-              <iron-selector role="navigation" class="drawer-list" selected="[[categoryName]]" attr-for-selected="name">
-                <dom-repeat items="[[categories]]" as="category" initial-count="4">
-                  <template>
-                    <a name="[[category.name]]" href="/list/[[category.name]]">[[category.title]]</a>
-                  </template>
-                </dom-repeat>
-              </iron-selector>
-            </app-drawer>
-          </template>
-        </dom-if>
-      
-      
-      <!-- hidden$="[[failure]]" -->
+      <!-- Lazy-create the drawer for small screen sizes. -->
+      <dom-if if="[[shouldRenderDrawer]]">
+        <!-- Two-way bind \`drawerOpened\` since app-drawer can update \`opened\` itself. -->
+        <template>
+          <app-drawer opened="{{drawerOpened}}" swipe-open="" tabindex="0">
+            <iron-selector role="navigation" class="drawer-list" selected="[[categoryName]]" attr-for-selected="name">
+              <dom-repeat items="[[categories]]" as="category" initial-count="4">
+                <template>
+                  <a name="[[category.name]]" href="/list/[[category.name]]">[[category.title]]</a>
+                </template>
+              </dom-repeat>
+            </iron-selector>
+          </app-drawer>
+        </template>
+      </dom-if>
 
-      <ul class="grid">
-        <li>
-          <!-- <a href$="[[_getItemHref(item)]]"><shop-list-item item="[[item]]"></shop-list-item></a> -->
-          <ctrl-alt-canoe-card></ctrl-alt-canoe-card>
-        </li>
-        <li>
-          <ctrl-alt-canoe-card></ctrl-alt-canoe-card>
-        </li>
-        <li>
-          <ctrl-alt-canoe-card></ctrl-alt-canoe-card>
-        </li>
-        <li>
-          <ctrl-alt-canoe-card></ctrl-alt-canoe-card>
-        </li>
-        <li>
-          <ctrl-alt-canoe-card></ctrl-alt-canoe-card>
-        </li>
-        <li>
-          <ctrl-alt-canoe-card></ctrl-alt-canoe-card>
-        </li>
-      </ul>
+      <iron-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible" fallback-selection="404">
+        <ctrl-alt-canoe-home name="home"></ctrl-alt-canoe-home>
+      </iron-pages>
 
     `;
   }
@@ -249,11 +218,17 @@ class CtrlAltCanoeApp extends PolymerElement {
     this.drawerOpened = false;
     this.shouldRenderDrawer = true;
   }
+
+  static get observers() { return [
+    '_routePageChanged(routeData.page)'
+  ]}
+
   static get properties() {
     return {
-      prop1: {
+      page: {
         type: String,
-        value: 'ctrl-alt-canoe-app'
+        reflectToAttribute: true,
+        observer: '_pageChanged'
       },
       _shouldRenderDrawer: {
         computed: '_computeShouldRenderDrawer(smallScreen, loadComplete)'
@@ -263,16 +238,54 @@ class CtrlAltCanoeApp extends PolymerElement {
       }
     };
   }
+  _routePageChanged(page) {
+    if (this.page === 'list') {
+      this._listScrollTop = window.pageYOffset;
+    }
+
+    this.page = page || 'home';
+
+    // Close the drawer - in case the *route* change came from a link in the drawer.
+    this.drawerOpened = false;
+  }
+  _pageChanged(page, oldPage) {
+    if (page != null) {
+      let cb = this._pageLoaded.bind(this, Boolean(oldPage));
+      switch (page) {
+        case 'list':
+          import('./shop-list.js').then(cb);
+          break;
+        case 'detail':
+          import('./shop-detail.js').then(cb);
+          break;
+        case 'cart':
+          import('./shop-cart.js').then(cb);
+          break;
+        case 'checkout':
+          import('./shop-checkout.js').then(cb);
+          break;
+        default:
+          this._pageLoaded(Boolean(oldPage));
+      }
+    }
+  }
+  _pageLoaded(shouldResetLayout) {
+    // this._ensureLazyLoaded();
+    if (shouldResetLayout) {
+      // The size of the header depends on the page (e.g. on some pages the tabs
+      // do not appear), so reset the header's layout only when switching pages.
+      timeOut.run(() => {
+        this.$.header.resetLayout();
+      }, 1);
+    }
+  }
   _toggleDrawer() {
-    console.log('we toggling');
     this.drawerOpened = !this.drawerOpened;
   }
   _computeShouldShowTabs(smallScreen) {
-    console.log('tab logiic: ', !smallScreen);
     return !smallScreen;
   }
   _computeShouldRenderDrawer(smallScreen, loadComplete) {
-    console.log('we lit');
     return smallScreen && loadComplete;
   }
 }
