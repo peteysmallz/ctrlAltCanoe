@@ -13,6 +13,7 @@ class CtrlAltCanoeTab extends PolymerElement {
       :host {
         display: inline-block;
         position: relative;
+        font-family: var(--app-secondary-font);
       }
 
       #overlay {

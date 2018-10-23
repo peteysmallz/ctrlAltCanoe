@@ -16,6 +16,8 @@ class CtrlAltCanoeCard extends PolymerElement {
       paper-card {
         box-shadow: none;
         padding: 20px;
+        margin: 10px;
+        border-radius: 0;
       }
 
       paper-card:hover {
@@ -23,17 +25,46 @@ class CtrlAltCanoeCard extends PolymerElement {
         transition: box-shadow .15s cubic-bezier(.4,0,.2,1);
       }
 
+      .card-headline {
+        font-family: var(--app-primary-font);;
+        font-size: 24px;
+        line-height: 32px;
+        color: #424242;
+        margin-top: 9px;
+        letter-spacing: .28px;
+      }
+
+      .card-content {
+        padding: 0;
+        margin-top: 25px;
+        text-align: left;
+      }
+
+      .card-dek {
+        font-family: var(--app-secondary-font);
+        font-size: 14px;
+        line-height: 20px;
+        color: #424242;
+        margin-top: 4px;
+      }
+
       .card-actions {
         border: none;
+        padding: 0;
+        font-size: .875rem;
+        font-weight: 400;
+        font-style: normal;
+        color: #5f6368;
+        font-family: var(--app-highlight-font);;
+        margin-top: 21px;
+        text-transform: capitalize;
       }
     </style>
     <paper-card image="images/hero.jpg" alt="Emmental">
       <div class="card-content">
-        Emmentaler or Emmental is a yellow, medium-hard cheese that originated in the area around Emmental, Switzerland. It is one of the cheeses of Switzerland, and is sometimes known as Swiss cheese.
-      </div>
-      <div class="card-actions">
-        <paper-button>Share</paper-button>
-        <paper-button>Explore!</paper-button>
+        <div class="card-headline">Design Notes</div>
+        <div class="card-dek">Emmentaler or Emmental is a yellow, medium-hard cheese that originated in the area around Emmental, Switzerland. It is one of the cheeses of Switzerland, and is sometimes known as Swiss cheese.</div>
+        <div class="card-actions">Profile</div>
       </div>
     </paper-card>
     `;
